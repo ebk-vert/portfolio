@@ -1,0 +1,437 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Ethan B. Kim | Engineering Portfolio</title>
+<meta name="description" content="Ethan B. Kim, engineering student at Harvey Mudd College. Rocketry, robotic submarine, Formula SAE, autonomous rover and software projects.">
+<style>
+/* Layout: one 880px column. Projects get full-width image galleries; everything else is plain text. */
+:root{
+  --bg:#ffffff; --fg:#1a1d21; --muted:#5a6370; --line:#dde1e6; --soft:#f4f6f8;
+  --accent:#1d5fa8; --ph:#8a5a00; --ph-bg:#fdf6e9; --ph-line:#d9a443;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#121417; --fg:#e6e9ed; --muted:#9aa3ae; --line:#2b3036; --soft:#1a1e22;
+  --accent:#7fb2ec; --ph:#f0bf6a; --ph-bg:#241e13; --ph-line:#7a5a22;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#121417; --fg:#e6e9ed; --muted:#9aa3ae; --line:#2b3036; --soft:#1a1e22;
+  --accent:#7fb2ec; --ph:#f0bf6a; --ph-bg:#241e13; --ph-line:#7a5a22;
+  color-scheme:dark}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:17px;line-height:1.6}
+.wrap{max-width:880px;margin:0 auto;
+  padding-left:max(20px,env(safe-area-inset-left,0px));padding-right:max(20px,env(safe-area-inset-right,0px))}
+a{color:var(--accent);text-underline-offset:3px}
+a:focus-visible,.btn:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:2px}
+h1,h2,h3{line-height:1.2;text-wrap:balance;margin:0}
+h1{font-size:clamp(32px,6vw,44px);letter-spacing:-.01em}
+h2{font-size:26px;padding-bottom:10px;border-bottom:2px solid var(--fg)}
+h3{font-size:22px}
+p{margin:0}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:16px;top:16px;background:var(--bg);padding:8px 12px;z-index:10}
+
+/* Header */
+header{padding-block:56px 32px;display:flex;flex-direction:column;gap:10px}
+.tagline{font-size:20px;max-width:60ch}
+.seeking{font-size:17px;color:var(--muted);max-width:60ch}
+.seeking strong{color:var(--fg)}
+.meta{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.links{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px}
+.btn{display:inline-block;padding:9px 16px;border:1px solid var(--line);border-radius:4px;
+  color:var(--fg);text-decoration:none;font-weight:600;font-size:15px;background:var(--soft)}
+.btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.btn:hover{border-color:var(--accent)}
+nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:48px}
+nav ul{list-style:none;margin:0;padding:10px 0;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px}
+nav a{color:var(--muted);text-decoration:none}
+nav a:hover{color:var(--accent)}
+
+section{margin-bottom:64px;display:flex;flex-direction:column;gap:28px}
+
+/* Projects */
+.project{display:flex;flex-direction:column;gap:18px;padding-bottom:44px;border-bottom:1px solid var(--line)}
+.project:last-child{border-bottom:0;padding-bottom:0}
+.p-head{display:flex;flex-direction:column;gap:2px}
+.role{color:var(--muted);font-size:15px}
+.role b{color:var(--fg);font-weight:600}
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gallery .lead{grid-column:1 / -1}
+.gallery.portraits{grid-template-columns:repeat(3,1fr)}
+.gallery.phones{grid-template-columns:repeat(4,1fr)}
+.parts{display:grid;gap:14px;margin:0}
+.parts > div{display:grid;grid-template-columns:120px 1fr;gap:16px}
+.parts dt{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-top:4px}
+.parts dd{margin:0;max-width:65ch}
+.ext{font-size:15px}
+
+/* Image slots: the photo sits over a labelled placeholder; if the file is missing, the placeholder shows. */
+figure.slot{margin:0;position:relative;aspect-ratio:var(--ar,4/3);max-width:100%;
+  background:var(--soft);border-radius:4px;overflow:hidden}
+figure.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+figure.slot.contain img,figure.slot.cad img{object-fit:contain}
+figure.slot.cad{background:#eef0f4}
+.gallery.sub{align-items:start}
+figure.slot img{visibility:hidden}
+figure.slot.loaded img{visibility:visible}
+.ph{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;gap:4px;
+  padding:14px;border:2px dashed var(--ph-line);border-radius:4px;background:var(--ph-bg);color:var(--fg);font-size:14px;line-height:1.4}
+.ph .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ph)}
+.ph .file{font-family:var(--mono);font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+figure.slot.loaded .ph{visibility:hidden}
+.gallery.phones .ph{font-size:12px;padding:10px}
+
+.todo{border:2px dashed var(--ph-line);background:var(--ph-bg);border-radius:4px;padding:2px 8px;font-size:15px}
+.todo .tag{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ph);margin-right:6px}
+
+.job-block{display:flex;flex-direction:column;gap:10px}
+.job-block h4{margin:0;font-size:17px}
+.job-block p{color:var(--muted)}
+video.clip{display:block;width:100%;max-width:300px;height:auto;aspect-ratio:9/16;border-radius:4px;background:var(--soft)}
+
+/* Experience, skills, education */
+.job{display:flex;flex-direction:column;gap:8px}
+.job-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 16px;align-items:baseline}
+.dates{font-family:var(--mono);font-size:13px;color:var(--muted);white-space:nowrap}
+ul.bul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max-width:70ch}
+.skills{display:grid;gap:22px}
+.skills h3,.edu h3{font-size:17px}
+.skills ul{margin:6px 0 0;padding-left:20px;max-width:70ch}
+.shop{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.edu{display:grid;gap:24px}
+.edu > div{display:flex;flex-direction:column;gap:4px}
+footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--muted);font-size:14px}
+
+@media (max-width:560px){
+  body{font-size:16px}
+  .parts > div{grid-template-columns:1fr;gap:2px}
+  .gallery{grid-template-columns:1fr}
+  .gallery.phones{grid-template-columns:1fr 1fr}
+  .gallery.portraits{grid-template-columns:1fr 1fr}
+  .gallery.portraits figure:first-child{grid-column:1 / -1}
+  .shop{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#projects">Skip to projects</a>
+
+<div class="wrap">
+<header>
+  <h1>Ethan B. Kim</h1>
+  <p class="tagline">Engineering student at Harvey Mudd College with a focus on mechanical design. I design, build and test hardware.</p>
+  <p class="seeking"><strong>Looking for a Summer 2027 mechanical or aerospace engineering internship.</strong></p>
+  <p class="meta">Irvine, CA · U.S. citizen</p>
+  <div class="links">
+    <!-- Put your resume PDF next to this file with exactly this name. -->
+    <a class="btn primary" href="Ethan-Kim-Resume.pdf" download>Download resume (PDF)</a>
+    <a class="btn" href="https://www.linkedin.com/in/ethanbkim" rel="noopener">LinkedIn</a>
+    <a class="btn" href="mailto:ethkim88@gmail.com">Email</a>
+  </div>
+</header>
+
+<nav aria-label="Sections">
+  <ul>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<main>
+<section id="projects" aria-labelledby="projects-h">
+  <h2 id="projects-h">Projects</h2>
+
+  <!-- 1. Rocketry -->
+  <article class="project" aria-labelledby="p-rocketry">
+    <div class="p-head">
+      <h3 id="p-rocketry">Helicopter Duration Rocketry, NAR Annual Meet Championship</h3>
+      <p class="role"><b>Silver Medalist</b> · National Association of Rocketry, Pueblo, CO · June to August 2024</p>
+    </div>
+    <div class="gallery portraits">
+      <figure class="slot" style="--ar:3/4">
+        <img src="img/rocketry-1.jpg" width="900" height="1200" alt="My carbon fiber helicopter duration rocket on the launch pad at the national championship in Pueblo, Colorado, with the range tent behind it" fetchpriority="high" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Photo</span>On the pad at Pueblo<span class="file">img/rocketry-1.jpg</span></div>
+      </figure>
+      <figure class="slot" style="--ar:3/4">
+        <img src="img/rocketry-2.jpg" width="900" height="1200" alt="Me holding one of my carbon fiber prototypes at the championship" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Holding a prototype<span class="file">img/rocketry-2.jpg</span></div>
+      </figure>
+      <figure class="slot" style="--ar:3/4">
+        <img src="img/rocketry-3.jpg" width="900" height="1200" alt="Close-up of a carbon fiber prototype, labelled EBK S3, showing the body and the fin at its base" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Prototype close-up<span class="file">img/rocketry-3.jpg</span></div>
+      </figure>
+    </div>
+    <dl class="parts">
+      <div><dt>The project</dt><dd>A competition rocket for the Helicopter Duration event at the National Association of Rocketry's Annual Meet Championship. In this event the rocket recovers by spinning down on rotor blades instead of a parachute, and the score is how long it stays in the air.</dd></div>
+      <div><dt>What I did</dt><dd>Designed, built and flight-tested 5 custom carbon fiber prototypes over three months, changing one variable per build to isolate what drove flight duration and converge on a final configuration. The governing constraint was the motor's fixed ejection delay, so I tuned airframe mass across builds to align apogee with it.</dd></div>
+      <div><dt>Outcome</dt><dd>Silver medal: 2nd nationally in Helicopter Duration.</dd></div>
+    </dl>
+  </article>
+
+  <!-- 2. Submarine -->
+  <article class="project" aria-labelledby="p-sub">
+    <div class="p-head">
+      <h3 id="p-sub">"Crush" Autonomous Underwater Vehicle</h3>
+      <p class="role"><b>Lead Mechanical Designer</b> · Harvey Mudd Robotic Submarine Team · September 2025 to present</p>
+    </div>
+    <div class="gallery sub">
+      <figure class="slot lead cad" style="--ar:1600/1112">
+        <img src="img/sub-top.jpg" width="1600" height="1112" alt="SolidWorks model of Crush seen from above: a central housing with paired ducted thrusters at each end and four diagonal arms" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Image</span>Top view<span class="file">img/sub-top.jpg</span></div>
+      </figure>
+      <figure class="slot cad" style="--ar:1200/619">
+        <img src="img/sub-end-1.jpg" width="1200" height="619" alt="SolidWorks end view of Crush showing the housing, two side thrusters and two lower thrusters" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Image</span>End view<span class="file">img/sub-end-1.jpg</span></div>
+      </figure>
+      <figure class="slot cad" style="--ar:1200/636">
+        <img src="img/sub-end-2.jpg" width="1200" height="636" alt="SolidWorks end view of Crush from the opposite end, showing the oval window on the housing" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Image</span>Opposite end view<span class="file">img/sub-end-2.jpg</span></div>
+      </figure>
+      <figure class="slot cad" style="--ar:865/773">
+        <img src="img/sub-housing-iso.jpg" width="865" height="773" alt="The housing in SolidWorks, shown transparent so the internal components and connectors are visible" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Image</span>Housing, isometric<span class="file">img/sub-housing-iso.jpg</span></div>
+      </figure>
+      <figure class="slot cad" style="--ar:490/512">
+        <img src="img/sub-housing-top.jpg" width="490" height="512" alt="The housing in SolidWorks from above, shown transparent with the internal component layout visible" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Image</span>Housing, top view<span class="file">img/sub-housing-top.jpg</span></div>
+      </figure>
+      <figure class="slot cad" style="--ar:512/317">
+        <img src="img/sub-housing-side.jpg" width="512" height="317" alt="Side view of the housing in SolidWorks, shown transparent, with the oval window at one end" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Image</span>Housing, side view<span class="file">img/sub-housing-side.jpg</span></div>
+      </figure>
+      <figure class="slot" style="--ar:4/3">
+        <img src="img/sub-mill.jpg" width="1200" height="900" alt="Milling a pocket into a metal plate for the submarine" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Machining a part for the submarine<span class="file">img/sub-mill.jpg</span></div>
+      </figure>
+    </div>
+    <dl class="parts">
+      <div><dt>The project</dt><dd>"Crush" is the Harvey Mudd Robotic Submarine Team's autonomous underwater vehicle. Its housing has to stay watertight through extended submerged operation.</dd></div>
+      <div><dt>What I did</dt><dd><ul class="bul">
+        <li>Model the structural and housing components in SolidWorks, from concept through manufacturable part drawings.</li>
+        <li>Simulate stress and strain on the casing to confirm margin before fabrication.</li>
+        <li>Evaluate candidate materials against strength-to-weight and corrosion criteria, and work through the calculations for waterproofing the housing and the vehicle.</li>
+        <li>Make design drawings and process routings, and machine parts for Crush on the lathe and mill.</li>
+      </ul></dd></div>
+      <div><dt>Outcome</dt><dd>In progress since September 2025.</dd></div>
+    </dl>
+  </article>
+
+  <!-- 3. Formula SAE -->
+  <article class="project" aria-labelledby="p-fsae">
+    <div class="p-head">
+      <h3 id="p-fsae">Formula SAE Chassis</h3>
+      <p class="role"><b>Mechanical Engineer</b> · Harvey Mudd Formula SAE Racing Team · September 2025 to present</p>
+    </div>
+    <dl class="parts">
+      <div><dt>The project</dt><dd>The competition vehicle for Harvey Mudd's Formula SAE team, a two-year-old program where members work across sub-teams, from fabrication to assembly, rather than specializing.</dd></div>
+      <div><dt>What I did</dt><dd>Chassis fabrication and integration, coordinating mounting geometry with the suspension and drivetrain sub-teams.</dd></div>
+      <div><dt>Outcome</dt><dd>In progress since September 2025.</dd></div>
+    </dl>
+  </article>
+
+  <!-- 4. Trash Rover -->
+  <article class="project" aria-labelledby="p-rover">
+    <div class="p-head">
+      <h3 id="p-rover">Autonomous Trash Rover</h3>
+      <p class="role"><b>Lead Engineer</b> · Independent capstone project · May to June 2025</p>
+    </div>
+    <dl class="parts">
+      <div><dt>The project</dt><dd>An autonomous ground rover that finds and picks up litter on its own.</dd></div>
+      <div><dt>What I did</dt><dd>Built the rover and wrote its software in Python, integrating computer vision to detect litter, touch sensors, and motor control.</dd></div>
+      <div><dt>Outcome</dt><dd>Field-tested over a 4-week cycle, retrieving 50 pieces of debris.</dd></div>
+    </dl>
+  </article>
+
+  <!-- 5. Wheeev -->
+  <article class="project" aria-labelledby="p-wheeev">
+    <div class="p-head">
+      <h3 id="p-wheeev">Wheeev, iOS app</h3>
+      <p class="role"><b>Solo Developer</b> · July 2026 to present</p>
+    </div>
+    <div class="gallery phones">
+      <figure class="slot" style="--ar:750/1624">
+        <img src="img/wheeev-1.jpg" width="750" height="1624" alt="Wheeev screenshot: the Meets list near Irvine, showing a meet card with its flyer, date, distance and RSVP count" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Screenshot</span>Meets list<span class="file">img/wheeev-1.jpg</span></div>
+      </figure>
+      <figure class="slot" style="--ar:750/1624">
+        <img src="img/wheeev-2.jpg" width="750" height="1624" alt="Wheeev screenshot: a meet's detail page with the attendee list and buttons to create a group chat and share live location" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Screenshot</span>Meet detail<span class="file">img/wheeev-2.jpg</span></div>
+      </figure>
+      <figure class="slot" style="--ar:750/1624">
+        <img src="img/wheeev-3.jpg" width="750" height="1624" alt="Wheeev screenshot: the Meets map of Orange County with meet pins and a rider's live location marker" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Screenshot</span>Map with live location<span class="file">img/wheeev-3.jpg</span></div>
+      </figure>
+      <figure class="slot" style="--ar:750/1624">
+        <img src="img/wheeev-4.jpg" width="750" height="1624" alt="Wheeev screenshot: the Chats list with public and private group conversations" loading="lazy" decoding="async">
+        <div class="ph" aria-hidden="true"><span class="tag">Screenshot</span>Chats<span class="file">img/wheeev-4.jpg</span></div>
+      </figure>
+    </div>
+    <dl class="parts">
+      <div><dt>The project</dt><dd>An iOS app for the car and motorcycle community: find local meets, message other riders, and share real-time location.</dd></div>
+      <div><dt>What I did</dt><dd>Designed, built and shipped it alone: React Native (Expo) and TypeScript for the app, Supabase (PostgreSQL + PostGIS) for the backend, and a custom Swift module for background location. Authorization is enforced entirely in the database through Postgres row-level security rather than in the application layer.</dd></div>
+      <div><dt>Outcome</dt><dd>Live on the App Store, shipped after three App Store rejections. Roughly 514 commits, 64 database migrations, 41 database test files and 28 unit test files. Android version in progress.</dd></div>
+    </dl>
+    <p class="ext"><a href="https://wheeev.com" rel="noopener">wheeev.com</a> · <a href="https://apps.apple.com/app/id6802228250" rel="noopener">App Store</a></p>
+  </article>
+
+  <!-- 6. Motorcycle -->
+  <article class="project" aria-labelledby="p-moto">
+    <div class="p-head">
+      <h3 id="p-moto">Motorcycle Maintenance and Modification</h3>
+      <p class="role"><b>Personal project</b> · My Kawasaki Ninja, all work done myself</p>
+    </div>
+    <div class="job-block">
+      <h4>Full maintenance</h4>
+      <p>Replaced the tires, the chain and sprocket, and the brake pads, and changed the oil.</p>
+      <div class="gallery">
+        <figure class="slot lead" style="--ar:1600/848">
+          <img src="img/moto-maint-1.jpg" width="1600" height="848" alt="My Kawasaki Ninja on front and rear stands with the fairings partly removed and the chain off during maintenance" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Bike on stands, chain off<span class="file">img/moto-maint-1.jpg</span></div>
+        </figure>
+        <figure class="slot" style="--ar:900/1200">
+          <img src="img/moto-maint-2.jpg" width="900" height="1200" alt="Front of the bike with fairings removed, an oil drain pan underneath and the front wheel off" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Front end apart, oil draining<span class="file">img/moto-maint-2.jpg</span></div>
+        </figure>
+        <figure class="slot" style="--ar:900/1200">
+          <img src="img/moto-maint-3.jpg" width="900" height="1200" alt="Side of the bike over an oil drain pan with tools laid out on the floor and my gloved hand at work" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Oil change in progress<span class="file">img/moto-maint-3.jpg</span></div>
+        </figure>
+      </div>
+    </div>
+    <div class="job-block">
+      <h4>Tail tidy</h4>
+      <p>Swapped out the rear tail tidy and wired in a license plate light.</p>
+      <div class="gallery">
+        <figure class="slot" style="--ar:900/1200">
+          <img src="img/moto-tail-1.jpg" width="900" height="1200" alt="Rear view of the bike in the garage during the tail tidy swap, tail section opened" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Rear, during install<span class="file">img/moto-tail-1.jpg</span></div>
+        </figure>
+        <figure class="slot" style="--ar:900/1200">
+          <img src="img/moto-tail-2.jpg" width="900" height="1200" alt="The tail section with the seat and rear bodywork removed, showing the frame and wiring underneath" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Tail section opened up<span class="file">img/moto-tail-2.jpg</span></div>
+        </figure>
+      </div>
+    </div>
+    <div class="job-block">
+      <h4>Exhaust</h4>
+      <p>Installed an aftermarket exhaust on my own. 12-second clip, with sound.</p>
+      <video class="clip" controls preload="none" playsinline width="720" height="1280" poster="img/moto-exhaust-poster.jpg" aria-label="12-second video of the installed aftermarket exhaust on my motorcycle">
+        <source src="video/moto-exhaust.mp4" type="video/mp4">
+        <a href="video/moto-exhaust.mp4">Watch the exhaust clip (MP4)</a>
+      </video>
+    </div>
+  </article>
+</section>
+
+<section id="experience" aria-labelledby="experience-h">
+  <h2 id="experience-h">Experience</h2>
+  <div class="job">
+    <div class="job-head">
+      <h3>Engineering Intern, Cenergy Power</h3>
+      <span class="dates">June to August 2026</span>
+    </div>
+    <p class="role">Aliso Viejo, CA · Utility-scale solar development</p>
+    <ul class="bul">
+      <li>Automated parcel screening across Virginia and Illinois, filtering candidate sites by proximity to substations (under 5 mi) and distribution feeders (under 1 mi), reducing county-level research from about 16 hours of manual work to 15 minutes.</li>
+      <li>Built a system overlaying regulatory and environmental constraint layers (FEMA flood zones, prime farmland, wetlands) onto AutoCAD parcel drawings, giving designers buildable-area context before layout.</li>
+      <li>Built a landowner outreach pipeline that aggregates parcel and ownership records and generates print-ready mailer packets with preliminary designs, deployed across all target counties.</li>
+    </ul>
+  </div>
+  <div class="job">
+    <div class="job-head">
+      <h3>Marketing &amp; Forecasting Analyst, DWK Corporation</h3>
+      <span class="dates">May 2023 to May 2024</span>
+    </div>
+    <p class="role">Ontario, CA</p>
+    <ul class="bul">
+      <li>Diagnosed underperforming Amazon listings through keyword research and bid optimization, increasing sales by 5%.</li>
+      <li>Built Excel forecasting models for inventory stocking and demand projections.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="skills" aria-labelledby="skills-h">
+  <h2 id="skills-h">Skills</h2>
+  <div class="skills">
+    <div>
+      <h3>Mechanical design</h3>
+      <ul>
+        <li>SolidWorks (parts, assemblies, drawings)</li>
+        <li>AutoCAD (layered site drawings)</li>
+        <li>Prototyping</li>
+        <li>Material selection</li>
+        <li>Design iteration and testing</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Manufacturing</h3>
+      <ul>
+        <li>Manual mill and lathe</li>
+        <li>3D printing</li>
+        <li>Composite layup</li>
+        <li>Hand tools and assembly</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Programming and data</h3>
+      <ul>
+        <li>Python</li>
+        <li>TypeScript / React Native</li>
+        <li>SQL (PostgreSQL / PostGIS)</li>
+        <li>Excel</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="education" aria-labelledby="education-h">
+  <h2 id="education-h">Education and athletics</h2>
+  <div class="edu">
+    <div>
+      <div class="job-head">
+        <h3>Harvey Mudd College, Claremont, CA</h3>
+        <span class="dates">Expected May 2029</span>
+      </div>
+      <p>B.S. in Engineering (general engineering degree; my focus is mechanical). Dean's List, Spring 2026.</p>
+      <p class="role">Fall 2026 coursework: Engineering Design &amp; Manufacturing (and lab), Engineering Systems (and practicum), Materials Engineering, Physics Laboratory.</p>
+    </div>
+    <div>
+      <div class="job-head">
+        <h3>Claremont-Mudd-Scripps Varsity Tennis, NCAA Division III</h3>
+        <span class="dates">August 2025 to present</span>
+      </div>
+      <p>Student-athlete. Train and compete 12 hours per week for a program ranked #2 nationally in Division III. Won the 2026 Division III National Indoor Championships; NCAA Championship runner-up.</p>
+    </div>
+  </div>
+</section>
+
+<section id="contact" aria-labelledby="contact-h">
+  <h2 id="contact-h">Contact</h2>
+  <p><a href="mailto:ethkim88@gmail.com">ethkim88@gmail.com</a></p>
+</section>
+</main>
+
+<footer>Ethan B. Kim</footer>
+</div>
+
+<script>
+// The labelled placeholder stays visible until the photo actually loads.
+document.querySelectorAll('figure.slot img').forEach(function (img) {
+  var fig = img.closest('figure');
+  function loaded() { fig.classList.add('loaded'); }
+  img.addEventListener('load', loaded);
+  if (img.complete && img.naturalWidth > 0) loaded();
+});
+</script>
+</body>
+</html>
