@@ -7,7 +7,7 @@
 <title>Ethan B. Kim | Engineering Portfolio</title>
 <meta name="description" content="Ethan B. Kim, engineering student at Harvey Mudd College. Rocketry, robotic submarine, Formula SAE, autonomous rover and software projects.">
 <style>
-/* Layout: one 880px column. Projects get full-width image galleries; everything else is plain text. */
+/* Layout: one 880px column, one page shown at a time (routed on the URL hash). Project pages get full-width galleries. */
 :root{
   --bg:#ffffff; --fg:#1a1d21; --muted:#5a6370; --line:#dde1e6; --soft:#f4f6f8;
   --accent:#1d5fa8; --ph:#8a5a00; --ph-bg:#fdf6e9; --ph-line:#d9a443;
@@ -49,16 +49,39 @@ header{padding-block:56px 32px;display:flex;flex-direction:column;gap:10px}
   color:var(--fg);text-decoration:none;font-weight:600;font-size:15px;background:var(--soft)}
 .btn.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
 .btn:hover{border-color:var(--accent)}
-nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:48px}
-nav ul{list-style:none;margin:0;padding:10px 0;display:flex;flex-wrap:wrap;gap:6px 22px;font-size:15px}
-nav a{color:var(--muted);text-decoration:none}
-nav a:hover{color:var(--accent)}
+.site-nav{border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:40px;
+  position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.site-nav ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:0 22px;font-size:15px}
+.site-nav a{display:block;padding:12px 0;color:var(--muted);text-decoration:none;white-space:nowrap;border-bottom:2px solid transparent;margin-bottom:-1px}
+.site-nav a:hover{color:var(--accent)}
+.site-nav a[aria-current="page"]{color:var(--fg);font-weight:600;border-bottom-color:var(--accent)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+.js .view[hidden]{display:none}
+main:focus,h2[tabindex]:focus{outline:none}
+.intro{color:var(--muted)}
+.cards{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;height:100%;border:1px solid var(--line);border-radius:6px;overflow:hidden;color:var(--fg);text-decoration:none;background:var(--bg)}
+.card:hover{border-color:var(--accent)}
+.card:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.thumb{display:block;aspect-ratio:4/3;background:var(--soft);overflow:hidden}
+.thumb img{width:100%;height:100%;display:block;object-fit:cover}
+.thumb-contain{background:#eef0f4}
+.thumb-contain img{object-fit:contain}
+.thumb-text{display:flex;align-items:center;padding:20px;font-size:20px;font-weight:600;line-height:1.3;color:var(--fg);
+  background:repeating-linear-gradient(135deg,var(--soft) 0 12px,transparent 12px 24px),var(--soft)}
+.card-body{display:flex;flex-direction:column;gap:2px;padding:12px 14px 14px}
+.card-title{font-weight:700;font-size:17px;line-height:1.3}
+.card-role{color:var(--muted);font-size:14px}
+.card-fact{font-size:14px;margin-top:4px}
+.back{font-size:15px;align-self:flex-start}
+.ptitle{font-size:26px;border-bottom:0;padding-bottom:0}
+.project .job-block h3{font-size:17px}
+.pager{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:16px;font-size:15px}
 
-section{margin-bottom:64px;display:flex;flex-direction:column;gap:28px}
+section{margin-bottom:56px;display:flex;flex-direction:column;gap:28px}
 
 /* Projects */
-.project{display:flex;flex-direction:column;gap:18px;padding-bottom:44px;border-bottom:1px solid var(--line)}
-.project:last-child{border-bottom:0;padding-bottom:0}
+.project{display:flex;flex-direction:column;gap:18px}
 .p-head{display:flex;flex-direction:column;gap:2px}
 .role{color:var(--muted);font-size:15px}
 .role b{color:var(--fg);font-weight:600}
@@ -97,7 +120,7 @@ figure.slot.loaded .ph{visibility:hidden}
 video.clip{display:block;width:100%;max-width:300px;height:auto;aspect-ratio:9/16;border-radius:4px;background:var(--soft)}
 
 .gallery.tennis{grid-template-columns:1fr 1fr;margin-top:6px}
-.gallery.tennis figure:first-child{grid-column:1 / -1}
+.gallery.tennis figure:first-child,.gallery.tennis .clip-row{grid-column:1 / -1}
 /* Experience, skills, education */
 .job{display:flex;flex-direction:column;gap:8px}
 .job-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 16px;align-items:baseline}
@@ -109,7 +132,7 @@ ul.bul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;max
 .shop{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .edu{display:grid;gap:24px}
 .edu > div{display:flex;flex-direction:column;gap:4px}
-footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--muted);font-size:14px}
+footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--muted);font-size:14px;display:flex;flex-wrap:wrap;gap:6px 20px}
 
 @media (max-width:560px){
   body{font-size:16px}
@@ -119,17 +142,19 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
   .gallery.portraits{grid-template-columns:1fr 1fr}
   .gallery.portraits figure:first-child{grid-column:1 / -1}
   .shop{grid-template-columns:1fr}
+  .site-nav ul{gap:0 14px;font-size:14px}
+  .site-nav a{padding:10px 0}
 }
 </style>
 </head>
 <body>
-<a class="skip" href="#projects">Skip to projects</a>
+<a class="skip" href="#main">Skip to content</a>
 
 <div class="wrap">
 <header>
   <h1>Ethan B. Kim</h1>
   <p class="tagline">Engineering student at Harvey Mudd College with a focus on mechanical design. I design, build and test hardware.</p>
-  <p class="seeking"><strong>Looking for a Summer 2027 mechanical or aerospace engineering internship.</strong></p>
+  <p class="seeking"><strong>Looking for a Summer 2027 engineering internship.</strong></p>
   <p class="meta">Irvine, CA · U.S. citizen</p>
   <div class="links">
     <!-- Put your resume PDF next to this file with exactly this name. -->
@@ -139,24 +164,60 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
   </div>
 </header>
 
-<nav aria-label="Sections">
+<nav class="site-nav" id="site-nav" aria-label="Pages">
   <ul>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#skills">Skills</a></li>
-    <li><a href="#education">Education</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#projects" data-nav="projects">Projects</a></li>
+    <li><a href="#experience" data-nav="experience">Experience</a></li>
+    <li><a href="#skills" data-nav="skills">Skills</a></li>
+    <li><a href="#education" data-nav="education">Education</a></li>
+    <li><a href="#athletics" data-nav="athletics">Athletics</a></li>
   </ul>
 </nav>
 
-<main>
-<section id="projects" aria-labelledby="projects-h">
-  <h2 id="projects-h">Projects</h2>
+<main id="main" tabindex="-1">
+<section id="projects" class="view" data-nav="projects" aria-labelledby="projects-h">
+  <h2 id="projects-h" tabindex="-1">Projects</h2>
+  <p class="intro">Hardware first. Pick a project for photos, CAD and details.</p>
+  <ul class="cards">
+    <li><a class="card" href="#rocketry">
+      <span class="thumb thumb-cover"><img src="img/rocketry-1.jpg" alt="" loading="eager" decoding="async" style="object-position:center 35%"></span>
+      <span class="card-body"><span class="card-title">Helicopter Duration Rocketry</span><span class="card-role">Silver Medalist · NAR national championship</span><span class="card-fact">2nd nationally after 5 carbon fiber prototypes</span></span>
+    </a></li>
+    <li><a class="card" href="#submarine">
+      <span class="thumb thumb-contain"><img src="img/sub-top.jpg" alt="" loading="eager" decoding="async" style="object-position:center"></span>
+      <span class="card-body"><span class="card-title">"Crush" Underwater Vehicle</span><span class="card-role">Lead Mechanical Designer · Robotic Submarine Team</span><span class="card-fact">SolidWorks housing design, simulation and machining</span></span>
+    </a></li>
+    <li><a class="card" href="#fsae">
+      <span class="thumb thumb-text" aria-hidden="true">Chassis fabrication and integration</span>
+      <span class="card-body"><span class="card-title">Formula SAE Chassis</span><span class="card-role">Mechanical Engineer · Formula SAE Racing Team</span><span class="card-fact">Chassis fabrication and integration</span></span>
+    </a></li>
+    <li><a class="card" href="#rover">
+      <span class="thumb thumb-text" aria-hidden="true">50 pieces of debris retrieved in 4 weeks</span>
+      <span class="card-body"><span class="card-title">Autonomous Trash Rover</span><span class="card-role">Lead Engineer · Independent capstone</span><span class="card-fact">50 pieces of debris retrieved in 4 weeks</span></span>
+    </a></li>
+    <li><a class="card" href="#wheeev">
+      <span class="thumb thumb-cover"><img src="img/wheeev-3.jpg" alt="" loading="lazy" decoding="async" style="object-position:center top"></span>
+      <span class="card-body"><span class="card-title">Wheeev, iOS app</span><span class="card-role">Solo Developer · Live on the App Store</span><span class="card-fact">Meets, messaging and live location</span></span>
+    </a></li>
+    <li><a class="card" href="#motorcycle">
+      <span class="thumb thumb-cover"><img src="img/moto-maint-1.jpg" alt="" loading="lazy" decoding="async" style="object-position:center"></span>
+      <span class="card-body"><span class="card-title">Motorcycle Work</span><span class="card-role">Personal project · Kawasaki Ninja</span><span class="card-fact">Maintenance, tail tidy and exhaust, done myself</span></span>
+    </a></li>
+  </ul>
 
-  <!-- 1. Rocketry -->
+
+
+
+
+
+</section>
+
+<section id="rocketry" class="view" data-nav="projects" aria-labelledby="p-rocketry">
+  <a class="back" href="#projects">&larr; All projects</a>
+    <!-- 1. Rocketry -->
   <article class="project" aria-labelledby="p-rocketry">
     <div class="p-head">
-      <h3 id="p-rocketry">Helicopter Duration Rocketry, NAR Annual Meet Championship</h3>
+      <h2 id="p-rocketry" tabindex="-1" class="ptitle">Helicopter Duration Rocketry, NAR Annual Meet Championship</h2>
       <p class="role"><b>Silver Medalist</b> · National Association of Rocketry, Pueblo, CO · June to August 2024</p>
     </div>
     <div class="gallery portraits">
@@ -179,11 +240,15 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       <div><dt>Outcome</dt><dd>Silver medal: 2nd nationally in Helicopter Duration.</dd></div>
     </dl>
   </article>
+  <nav class="pager" aria-label="More projects"><span></span><a href="#submarine" rel="next">"Crush" Underwater Vehicle &rarr;</a></nav>
+</section>
 
-  <!-- 2. Submarine -->
+<section id="submarine" class="view" data-nav="projects" aria-labelledby="p-sub">
+  <a class="back" href="#projects">&larr; All projects</a>
+    <!-- 2. Submarine -->
   <article class="project" aria-labelledby="p-sub">
     <div class="p-head">
-      <h3 id="p-sub">"Crush" Autonomous Underwater Vehicle</h3>
+      <h2 id="p-sub" tabindex="-1" class="ptitle">"Crush" Autonomous Underwater Vehicle</h2>
       <p class="role"><b>Lead Mechanical Designer</b> · Harvey Mudd Robotic Submarine Team · September 2025 to present</p>
     </div>
     <div class="gallery sub">
@@ -227,11 +292,15 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       <div><dt>Outcome</dt><dd>In progress since September 2025.</dd></div>
     </dl>
   </article>
+  <nav class="pager" aria-label="More projects"><a href="#rocketry" rel="prev">&larr; Helicopter Duration Rocketry</a><a href="#fsae" rel="next">Formula SAE Chassis &rarr;</a></nav>
+</section>
 
-  <!-- 3. Formula SAE -->
+<section id="fsae" class="view" data-nav="projects" aria-labelledby="p-fsae">
+  <a class="back" href="#projects">&larr; All projects</a>
+    <!-- 3. Formula SAE -->
   <article class="project" aria-labelledby="p-fsae">
     <div class="p-head">
-      <h3 id="p-fsae">Formula SAE Chassis</h3>
+      <h2 id="p-fsae" tabindex="-1" class="ptitle">Formula SAE Chassis</h2>
       <p class="role"><b>Mechanical Engineer</b> · Harvey Mudd Formula SAE Racing Team · September 2025 to present</p>
     </div>
     <dl class="parts">
@@ -240,11 +309,15 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       <div><dt>Outcome</dt><dd>In progress since September 2025.</dd></div>
     </dl>
   </article>
+  <nav class="pager" aria-label="More projects"><a href="#submarine" rel="prev">&larr; "Crush" Underwater Vehicle</a><a href="#rover" rel="next">Autonomous Trash Rover &rarr;</a></nav>
+</section>
 
-  <!-- 4. Trash Rover -->
+<section id="rover" class="view" data-nav="projects" aria-labelledby="p-rover">
+  <a class="back" href="#projects">&larr; All projects</a>
+    <!-- 4. Trash Rover -->
   <article class="project" aria-labelledby="p-rover">
     <div class="p-head">
-      <h3 id="p-rover">Autonomous Trash Rover</h3>
+      <h2 id="p-rover" tabindex="-1" class="ptitle">Autonomous Trash Rover</h2>
       <p class="role"><b>Lead Engineer</b> · Independent capstone project · May to June 2025</p>
     </div>
     <dl class="parts">
@@ -253,11 +326,15 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       <div><dt>Outcome</dt><dd>Field-tested over a 4-week cycle, retrieving 50 pieces of debris.</dd></div>
     </dl>
   </article>
+  <nav class="pager" aria-label="More projects"><a href="#fsae" rel="prev">&larr; Formula SAE Chassis</a><a href="#wheeev" rel="next">Wheeev, iOS app &rarr;</a></nav>
+</section>
 
-  <!-- 5. Wheeev -->
+<section id="wheeev" class="view" data-nav="projects" aria-labelledby="p-wheeev">
+  <a class="back" href="#projects">&larr; All projects</a>
+    <!-- 5. Wheeev -->
   <article class="project" aria-labelledby="p-wheeev">
     <div class="p-head">
-      <h3 id="p-wheeev">Wheeev, iOS app</h3>
+      <h2 id="p-wheeev" tabindex="-1" class="ptitle">Wheeev, iOS app</h2>
       <p class="role"><b>Solo Developer</b> · July 2026 to present</p>
     </div>
     <div class="gallery phones">
@@ -285,15 +362,19 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
     </dl>
     <p class="ext"><a href="https://wheeev.com" rel="noopener">wheeev.com</a> · <a href="https://apps.apple.com/app/id6802228250" rel="noopener">App Store</a></p>
   </article>
+  <nav class="pager" aria-label="More projects"><a href="#rover" rel="prev">&larr; Autonomous Trash Rover</a><a href="#motorcycle" rel="next">Motorcycle Work &rarr;</a></nav>
+</section>
 
-  <!-- 6. Motorcycle -->
+<section id="motorcycle" class="view" data-nav="projects" aria-labelledby="p-moto">
+  <a class="back" href="#projects">&larr; All projects</a>
+    <!-- 6. Motorcycle -->
   <article class="project" aria-labelledby="p-moto">
     <div class="p-head">
-      <h3 id="p-moto">Motorcycle Maintenance and Modification</h3>
+      <h2 id="p-moto" tabindex="-1" class="ptitle">Motorcycle Maintenance and Modification</h2>
       <p class="role"><b>Personal project</b> · My Kawasaki Ninja, all work done myself</p>
     </div>
     <div class="job-block">
-      <h4>Full maintenance</h4>
+      <h3>Full maintenance</h3>
       <p>Replaced the tires, the chain and sprocket, and the brake pads, and changed the oil.</p>
       <div class="gallery">
         <figure class="slot lead" style="--ar:1600/848">
@@ -311,7 +392,7 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       </div>
     </div>
     <div class="job-block">
-      <h4>Tail tidy</h4>
+      <h3>Tail tidy</h3>
       <p>Swapped out the rear tail tidy and wired in a license plate light.</p>
       <div class="gallery">
         <figure class="slot" style="--ar:900/1200">
@@ -325,7 +406,7 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       </div>
     </div>
     <div class="job-block">
-      <h4>Exhaust</h4>
+      <h3>Exhaust</h3>
       <p>Installed an aftermarket exhaust on my own. 12-second clip, with sound.</p>
       <video class="clip" controls preload="none" playsinline width="720" height="1280" poster="img/moto-exhaust-poster.jpg" aria-label="12-second video of the installed aftermarket exhaust on my motorcycle">
         <source src="video/moto-exhaust.mp4" type="video/mp4">
@@ -333,10 +414,11 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       </video>
     </div>
   </article>
+  <nav class="pager" aria-label="More projects"><a href="#wheeev" rel="prev">&larr; Wheeev, iOS app</a><span></span></nav>
 </section>
 
-<section id="experience" aria-labelledby="experience-h">
-  <h2 id="experience-h">Experience</h2>
+<section id="experience" class="view" data-nav="experience" aria-labelledby="experience-h">
+  <h2 id="experience-h" tabindex="-1">Experience</h2>
   <div class="job">
     <div class="job-head">
       <h3>Engineering Intern, Cenergy Power</h3>
@@ -362,8 +444,8 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
   </div>
 </section>
 
-<section id="skills" aria-labelledby="skills-h">
-  <h2 id="skills-h">Skills</h2>
+<section id="skills" class="view" data-nav="skills" aria-labelledby="skills-h">
+  <h2 id="skills-h" tabindex="-1">Skills</h2>
   <div class="skills">
     <div>
       <h3>Mechanical design</h3>
@@ -396,8 +478,8 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
   </div>
 </section>
 
-<section id="education" aria-labelledby="education-h">
-  <h2 id="education-h">Education and athletics</h2>
+<section id="education" class="view" data-nav="education" aria-labelledby="education-h">
+  <h2 id="education-h" tabindex="-1">Education</h2>
   <div class="edu">
     <div>
       <div class="job-head">
@@ -421,6 +503,12 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
       </div>
       <p class="role">Relevant coursework: Aerospace Engineering, AP Physics C: Mechanics, AP Physics C: Electricity and Magnetism, Multivariable Calculus.</p>
     </div>
+  </div>
+</section>
+
+<section id="athletics" class="view" data-nav="athletics" aria-labelledby="athletics-h">
+  <h2 id="athletics-h" tabindex="-1">Athletics</h2>
+  <div class="edu">
     <div>
       <div class="job-head">
         <h3>Claremont-Mudd-Scripps Varsity Tennis, NCAA Division III</h3>
@@ -457,7 +545,11 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
           <img src="img/cif-plaque.jpg" width="900" height="1200" alt="Me holding the 2023 CIF Southern Section Division 1 Boys Tennis Champions plaque" loading="lazy" decoding="async">
           <div class="ph" aria-hidden="true"><span class="tag">Photo</span>With the championship plaque<span class="file">img/cif-plaque.jpg</span></div>
         </figure>
-        <div class="job-block">
+        <figure class="slot" style="--ar:3/4">
+          <img src="img/cif-dad.jpg" width="900" height="1200" alt="Me and my dad holding the 2023 CIF Southern Section Division 1 champions plaque after the final" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>With my dad after the final<span class="file">img/cif-dad.jpg</span></div>
+        </figure>
+        <div class="job-block clip-row">
           <video class="clip" controls preload="none" playsinline width="540" height="960" poster="img/cif-clinch-poster.jpg" aria-label="34-second video of the match point that clinched the 2023 CIF Southern Section Division 1 title, and the team rushing the court">
             <source src="video/cif-clinch.mp4" type="video/mp4">
             <a href="video/cif-clinch.mp4">Watch the clinching point (MP4)</a>
@@ -469,16 +561,49 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
   </div>
 </section>
 
-<section id="contact" aria-labelledby="contact-h">
-  <h2 id="contact-h">Contact</h2>
-  <p><a href="mailto:ethkim88@gmail.com">ethkim88@gmail.com</a></p>
-</section>
 </main>
 
-<footer>Ethan B. Kim</footer>
+<footer><span>Ethan B. Kim</span><a href="mailto:ethkim88@gmail.com">ethkim88@gmail.com</a><a href="https://www.linkedin.com/in/ethanbkim" rel="noopener">LinkedIn</a></footer>
 </div>
 
 <script>
+// One page at a time: the URL hash picks the view, so links, Back and bookmarks work.
+(function () {
+  var root = document.documentElement;
+  root.classList.add('js');
+  var views = Array.prototype.slice.call(document.querySelectorAll('.view'));
+  var navLinks = document.querySelectorAll('.site-nav a[data-nav]');
+  var nav = document.getElementById('site-nav');
+  var current = null;
+  function show(fromNav) {
+    var id = decodeURIComponent(location.hash.slice(1));
+    var v = id ? document.getElementById(id) : null;
+    if (v && !v.classList.contains('view')) {
+      // A hash that is not a page (the skip link) keeps the current page.
+      if (current) { v.focus && v.focus(); return; }
+      v = null;
+    }
+    v = v || views[0];
+    if (v === current) return;
+    views.forEach(function (x) { x.hidden = x !== v; });
+    navLinks.forEach(function (a) {
+      if (a.getAttribute('data-nav') === v.getAttribute('data-nav')) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
+    var title = v.querySelector('h2');
+    document.title = (v === views[0] ? 'Ethan B. Kim | Engineering Portfolio'
+      : title.textContent.replace(/\s+/g, ' ').trim() + ' | Ethan B. Kim');
+    if (fromNav) {
+      var top = nav.getBoundingClientRect().top + window.pageYOffset;
+      if (window.pageYOffset > top) window.scrollTo(0, top);
+      if (title) title.focus({ preventScroll: true });
+    }
+    current = v;
+  }
+  show(false);
+  window.addEventListener('hashchange', function () { show(true); });
+})();
+
 // The labelled placeholder stays visible until the photo actually loads.
 document.querySelectorAll('figure.slot img').forEach(function (img) {
   var fig = img.closest('figure');
