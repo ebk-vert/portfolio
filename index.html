@@ -96,6 +96,8 @@ figure.slot.loaded .ph{visibility:hidden}
 .job-block p{color:var(--muted)}
 video.clip{display:block;width:100%;max-width:300px;height:auto;aspect-ratio:9/16;border-radius:4px;background:var(--soft)}
 
+.gallery.tennis{grid-template-columns:1fr 1fr;margin-top:6px}
+.gallery.tennis figure:first-child{grid-column:1 / -1}
 /* Experience, skills, education */
 .job{display:flex;flex-direction:column;gap:8px}
 .job-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px 16px;align-items:baseline}
@@ -408,9 +410,23 @@ footer{border-top:1px solid var(--line);padding-block:20px 48px;color:var(--mute
     <div>
       <div class="job-head">
         <h3>Claremont-Mudd-Scripps Varsity Tennis, NCAA Division III</h3>
-        <span class="dates">August 2025 to present</span>
+        <span class="dates">August 2025 to November 2026</span>
       </div>
-      <p>Student-athlete. Train and compete 12 hours per week for a program ranked #2 nationally in Division III. Won the 2026 Division III National Indoor Championships; NCAA Championship runner-up.</p>
+      <p>Student-athlete. Trained and competed 12 hours per week for a program ranked #2 nationally in Division III. The team won the 2026 Division III National Indoor Championships and was NCAA Championship runner-up.</p>
+      <div class="gallery portraits tennis">
+        <figure class="slot lead" style="--ar:1600/1067">
+          <img src="img/tennis-1.jpg" width="1600" height="1067" alt="The Claremont-Mudd-Scripps men's tennis team celebrating with the 2026 ITA Division III National Team Indoor Championship trophy" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>ITA National Team Indoor champions<span class="file">img/tennis-1.jpg</span></div>
+        </figure>
+        <figure class="slot" style="--ar:3/4">
+          <img src="img/tennis-2.jpg" width="900" height="1200" alt="Me hitting a jumping forehand in a match for Claremont-Mudd-Scripps" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>Match play<span class="file">img/tennis-2.jpg</span></div>
+        </figure>
+        <figure class="slot" style="--ar:3/4">
+          <img src="img/tennis-3.jpg" width="900" height="1200" alt="Me holding the national championship trophy with three teammates" loading="lazy" decoding="async">
+          <div class="ph" aria-hidden="true"><span class="tag">Photo</span>With the trophy<span class="file">img/tennis-3.jpg</span></div>
+        </figure>
+      </div>
     </div>
   </div>
 </section>
